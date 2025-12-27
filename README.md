@@ -29,7 +29,129 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 # PROGRAM :
+my.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Electric Power Calculator</title>
+
+    <style>
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background: linear-gradient(120deg, #1d2671, #c33764);
+            font-family: Arial, sans-serif;
+        }
+
+        .box{
+            width:380px;
+            padding:35px;
+            background:white;
+            border-radius:15px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.3);
+            text-align:center;
+        }
+
+        h2{
+            color:#333;
+            margin-bottom:20px;
+        }
+
+        label{
+            display:block;
+            text-align:left;
+            margin-top:15px;
+            color:#555;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin-top:5px;
+            border-radius:8px;
+            border:1px solid #ccc;
+        }
+
+        button{
+            width:100%;
+            margin-top:25px;
+            padding:12px;
+            background:#1d2671;
+            color:white;
+            border:none;
+            border-radius:10px;
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#c33764;
+        }
+
+        .result{
+            margin-top:20px;
+            font-size:18px;
+            color:#222;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Electric Power Calculator</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Intensity (I)</label>
+        <input type="number" name="intensity" step="any" required>
+
+        <label>Resistance (R)</label>
+        <input type="number" name="resistance" step="any" required>
+
+        <button type="submit">Calculate</button>
+    </form>
+
+    {% if power != "" %}
+        <div class="result">
+            <strong>Power:</strong> {{ power }} Watts
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
+
+views.py
+
+from django.shortcuts import render
+
+def power(request):
+    power = ""
+    if request.method == "POST":
+        intensity = float(request.POST.get("intensity"))
+        resistance = float(request.POST.get("resistance"))
+        power = intensity ** 2 * resistance
+
+    return render(request, "myapp/my.html", {"power": power})
+
+    from django.contrib import admin
+from django.urls import path, include
+
+urls.py
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("myapp.urls")),
+]
 # SERVER SIDE PROCESSING:
+<img width="1412" height="783" alt="Screenshot 2025-12-27 165841" src="https://github.com/user-attachments/assets/4850a492-8ce9-415a-9685-449899dc7185" />
+
 # HOMEPAGE:
+<img width="1449" height="763" alt="Screenshot 2025-12-27 165906" src="https://github.com/user-attachments/assets/6dec11c2-e70f-412d-ae1b-3b1b06e9afcd" />
+
 # RESULT:
 The program for performing server side processing is completed successfully.
